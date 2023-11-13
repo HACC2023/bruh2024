@@ -1,0 +1,6 @@
+.idea
+resources
+**/node_modules
+/nlpTesting/cache
+
+**/*/data.json

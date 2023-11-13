@@ -1,0 +1,14 @@
+{
+  "name": "html-extractor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "html-entities": "^2.4.0",
+    "node-html-parser": "^6.1.10"
+  }
+}

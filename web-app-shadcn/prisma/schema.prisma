@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// After changing this file, use `yarn run prisma:generate` to update client bindings
+// Update development database with `yarn run prisma:push`
+// Create migrations for production database with `yarn run prisma:migrate`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PRISMA_DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email     String @unique
+  firstName String
+
+  chatSessions ChatSession[]
+
+  @@map("users")
+}
+
+model ChatSession {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  chatMessages ChatMessage[]
+
+  @@map("chatSessions")
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  chatSession   ChatSession @relation(fields: [chatSessionId], references: [id])
+  chatSessionId String
+
+  type    ChatMessageType
+  message String
+  rating  Boolean?
+
+  @@map("messages")
+}
+
+enum ChatMessageType {
+  QUESTION
+  ANSWER
+}
